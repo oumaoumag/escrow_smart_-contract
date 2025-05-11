@@ -50,4 +50,15 @@ contract EscrowTest is Test {
         token.approve(address(escrow), amount); // Approve escrow to spend
     }
 
+    function testOnlyBuyerCanDeposit() public {
+        vm.prank(buyer);
+        escrow.deposit();
+        assertEq(token.balanceOf(address(escrow)), amount); 
+
+        // Seller tries and fails
+        vm.prank(seller);
+        vm.expectRevert("Only buyer can deposit");
+        escrow.deposit();
+    }
+
 }

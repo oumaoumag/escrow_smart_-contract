@@ -11,4 +11,13 @@ contract Escrow {
     uint256 public amount;  // Amount of tokens in escrow
     bool public isReleased; 
 
+    // Sets up the contract with seller, token, and amount
+    constructor(address _seller, IERC20 _token, uint256 _amount) {
+        buyer = msg.sender;     // Buyer is the one deploying
+        seller = _seller;
+        token = _token;
+        amount = _amount;
+        isReleased = false;
+    }
+    
 }

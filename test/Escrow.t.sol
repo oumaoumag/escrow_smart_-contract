@@ -39,4 +39,15 @@ contract EscrowTest is Test {
     address public seller = address(2);
     uint256 public amount = 1000;       
    
+
+    // Sets up a fresh contract before each test
+    function setUp() public {
+        token = new MockERC20();
+        vm.prank(buyer);                
+        escrow = new Escrow(seller, token, amount);
+        token.mint(buyer, amount);      
+        vm.prank(buyer);
+        token.approve(address(escrow), amount); // Approve escrow to spend
+    }
+
 }

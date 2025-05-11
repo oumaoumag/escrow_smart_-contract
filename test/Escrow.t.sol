@@ -6,5 +6,12 @@ import "../src/Escrow.sol";
 
 // mock ERC20 token for testing
 contract MockERC20 {
-    // TODO
+     mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    function transfer(address to, uint256 value) external returns (bool) {
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;
+        return true;
+    }
 }

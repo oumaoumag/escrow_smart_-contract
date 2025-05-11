@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-0.3
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -27,7 +27,7 @@ contract Escrow {
         token.transferFrom(buyer, address(this), amount);
     }
 
-    // Allows Buyer to release the tokens
+    // Allows buyer to release the tokens
     function release() external {
         require(msg.sender == buyer, "Only buyer can release");
         isReleased = true;
@@ -35,7 +35,7 @@ contract Escrow {
 
     // Allows seller to withdraw tokens after release
     function withdraw() public {
-        require(isReleased(), "Funds not released yet");
+        require(isReleased, "Funds not released yet"); 
         require(msg.sender == seller, "Only seller can withdraw");
         require(!_withdrawn, "Already withdrawn");
         

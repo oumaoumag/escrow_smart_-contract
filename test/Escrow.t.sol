@@ -86,5 +86,29 @@ contract EscrowTest is Test {
         escrow.withdraw(); 
     }
 
+    // Fuzz test with random amounts
+    function testFuzzEscrowFlow(uint256 fuzzAmount) public {
+        vm.assume(fuzzAmount > 0 && fuzzAmount < type(uint256).max); // Limit range
 
+        // Set up a new instance for fuzzing
+        MockERC20 fuzzToken = new MockERC20();
+        fuzzToken.mint(buyer, fuzzAmount);
+
+        vm.prank(buyer);
+        Escrow fuzzEscrow = new Escrow(seller, fuzzToken, fuzzAmount);
+
+        vm.prank(buyer);
+        fuzzToken.approve(address(fuzzEscrow), fuzzAmount);
+
+        // Full flow
+        vm.prank(buyer);
+        fuzzEscrow.deposit();
+        vm.prank(buyer);
+        fuzzEscrow.release();
+        vm.prank(seller);
+        fuzzEscrow.withdraw();
+
+        assertEq(fuzzToken.balanceOf(seller), fuzzAmount); // Seller got right amount
+        assertEq(fuzzToken.balanceOf(address(fuzzEscrow)), 0); // Escrow empty
+    }
 }

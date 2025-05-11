@@ -7,18 +7,17 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract DeployEscrow is Script {
     function run() external {
-
         // Load environment variables
-        string memory privateKey = vm.envString("PRIVATE_KEY");
-        address seller = address(0xYourSellerAddressHere);  
-        IERC20 token = IERC20(0xYourTokenAddressHere);      
-        uint256 amount = 1000;                             
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        address seller = vm.envAddress("SELLER_ADDRESS");
+        address tokenAddress = vm.envAddress("TOKEN_ADDRESS");
+        uint256 amount = vm.envUint("ESCROW_AMOUNT");
 
         // Start broadcasting transactions
-        vm.startBroadcast(privateKey);
+        vm.startBroadcast(deployerPrivateKey);
 
         // Deploy the contract
-        Escrow escrow = new Escrow(seller, token, amount);
+        Escrow escrow = new Escrow(seller, IERC20(tokenAddress), amount);
 
         // Stop broadcasting
         vm.stopBroadcast();

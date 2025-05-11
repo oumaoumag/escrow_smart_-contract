@@ -19,5 +19,10 @@ contract Escrow {
         amount = _amount;
         isReleased = false;
     }
-    
+
+    // Buyer deposits tokens into the contract
+    function deposit() external {
+        require(msg.sender == buyer, "ONly buyer can deposit");
+        token.transferFrom(buyer, address(this), amount);
+    }
 }

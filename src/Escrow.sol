@@ -22,7 +22,13 @@ contract Escrow {
 
     // Buyer deposits tokens into the contract
     function deposit() external {
-        require(msg.sender == buyer, "ONly buyer can deposit");
+        require(msg.sender == buyer, "Only buyer can deposit");
         token.transferFrom(buyer, address(this), amount);
+    }
+
+    // Buyer releases the tokens
+    function release() external {
+        require(msg.sender == buyer, "Only buyer can release");
+        isReleased = true;
     }
 }

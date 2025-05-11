@@ -20,15 +20,22 @@ contract Escrow {
         isReleased = false;
     }
 
-    // Buyer deposits tokens into the contract
+    // Allows buyer to deposit tokens into the contract
     function deposit() external {
         require(msg.sender == buyer, "Only buyer can deposit");
         token.transferFrom(buyer, address(this), amount);
     }
 
-    // Buyer releases the tokens
+    // Allows Buyer to release the tokens
     function release() external {
         require(msg.sender == buyer, "Only buyer can release");
         isReleased = true;
+    }
+
+    // Allows seller to withdraw tokens after release
+    function withdraw() external {
+        require(msg.sender == seller, "Only seller can withdraww");
+        require(isReleased, "Funds not released yet");
+        token.transfer(seller, amount);
     }
 }

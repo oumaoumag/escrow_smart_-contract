@@ -26,4 +26,8 @@ contract MockERC20 {
         allowance[msg.sender][spender] = value;
         return true;
     }
+
+      function mint(address to, uint256 value) external {
+        balanceOf[to] += value;
+    }
 }

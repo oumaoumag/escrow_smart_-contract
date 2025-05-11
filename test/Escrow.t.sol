@@ -61,4 +61,14 @@ contract EscrowTest is Test {
         escrow.deposit();
     }
 
+    function testOnlyBuyerCanRelease() public {
+        vm.prank(seller);
+        vm.expectRevert("Only buyer can release");
+        escrow.release();
+
+        vm.prank(buyer);
+        escrow.release();
+        assertTrue(escrow.isReleased()); 
+    }
+
 }

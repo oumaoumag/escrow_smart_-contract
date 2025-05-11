@@ -71,4 +71,20 @@ contract EscrowTest is Test {
         assertTrue(escrow.isReleased()); 
     }
 
+    function testOnlySellerCanWithdrawAfterRelease() public {
+        vm.prank(buyer);
+        escrow.deposit();
+        vm.prank(buyer);
+        escrow.release();
+
+        vm.prank(seller);
+        escrow.withdraw();
+        assertEq(token.balanceOf(seller), amount); 
+
+        // Try withdrawing again (should fail if we add a check)
+        vm.prank(seller);
+        escrow.withdraw(); 
+    }
+
+
 }

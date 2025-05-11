@@ -90,6 +90,7 @@ contract EscrowTest is Test {
 
         // Try withdrawing again (should fail if we add a check)
         vm.prank(seller);
+        vm.expectRevert("Already withdrawn");
         escrow.withdraw(); 
     }
 

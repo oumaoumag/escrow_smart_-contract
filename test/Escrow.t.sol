@@ -32,4 +32,11 @@ contract MockERC20 {
     }
 }
 
-contract EscrowTest is Test {}
+contract EscrowTest is Test {
+     MockERC20 public token;
+    Escrow public escrow;
+    address public buyer = address(1);  
+    address public seller = address(2);
+    uint256 public amount = 1000;       
+   
+}

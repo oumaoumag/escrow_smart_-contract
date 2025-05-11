@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract DeployEscrow is Script {
     function run() external {
-        
+
         // Load environment variables
         string memory privateKey = vm.envString("PRIVATE_KEY");
         address seller = address(0xYourSellerAddressHere);  
@@ -26,5 +26,3 @@ contract DeployEscrow is Script {
         console.log("Escrow deployed at:", address(escrow));
     }
 }
-
-    Replace 0xYourSellerAddressH

@@ -10,6 +10,7 @@ contract Escrow {
     IERC20 public token;    // The IERC20 token in escrow
     uint256 public amount;  // Amount of tokens in escrow
     bool public isReleased; 
+    bool private _withdrawn = false;
 
     // Sets up the contract with seller, token, and amount
     constructor(address _seller, IERC20 _token, uint256 _amount) {
@@ -33,9 +34,12 @@ contract Escrow {
     }
 
     // Allows seller to withdraw tokens after release
-    function withdraw() external {
-        require(msg.sender == seller, "Only seller can withdraww");
-        require(isReleased, "Funds not released yet");
+    function withdraw() public {
+        require(isReleased(), "Funds not released yet");
+        require(msg.sender == seller, "Only seller can withdraw");
+        require(!_withdrawn, "Already withdrawn");
+        
+        _withdrawn = true;
         token.transfer(seller, amount);
     }
 }

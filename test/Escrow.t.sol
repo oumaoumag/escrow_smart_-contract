@@ -3,11 +3,18 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "../src/Escrow.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // mock ERC20 token for testing
-contract MockERC20 {
+contract MockERC20 is IERC20 {
      mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
+    
+    // Add these to implement IERC20 interface
+    string public name = "Mock Token";
+    string public symbol = "MOCK";
+    uint8 public decimals = 18;
+    uint256 public totalSupply;
 
     function transfer(address to, uint256 value) external returns (bool) {
         balanceOf[msg.sender] -= value;

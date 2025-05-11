@@ -31,3 +31,5 @@ contract MockERC20 {
         balanceOf[to] += value;
     }
 }
+
+contract EscrowTest is Test {}

@@ -14,4 +14,11 @@ contract MockERC20 {
         balanceOf[to] += value;
         return true;
     }
+
+    function transferFrom(address from, address to, uint256 value) external returns (bool) {
+        allowance[from][msg.sender] -= value;
+        balanceOf[from] -= value;
+        balanceOf[to] += value;
+        return true;
+    }
 }
